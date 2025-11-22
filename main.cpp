@@ -51,12 +51,13 @@ void simulateGravity(std::vector<Body>& bodies) {
     for (unsigned int i = 0; i < bodies.size(); i++) {
         Body body1 = bodies[i];
         for (unsigned int j = 0; j < bodies.size(); j++) {
-            Body body2 = bodies[j];
-            if (i != j) {
-                float force = calculateGravityForce(body1, body2);
-                sf::Vector2f forceVec = calculateUnitVector(body1, body2) * force;
-                bodies[j].acc += forceVec / body2.mass;
+            if (i == j) {
+                continue;
             }
+            Body body2 = bodies[j];
+            float force = calculateGravityForce(body1, body2);
+            sf::Vector2f forceVec = calculateUnitVector(body1, body2) * force;
+            bodies[j].acc += forceVec / body2.mass;
         }
     }
 }
@@ -89,8 +90,10 @@ int main() {
     std::vector<Body> bodies;
     Body body1({300, 300}, {0, 0}, {0, 0}, 10000, 20, sf::Color(250, 150, 100));
     Body body2({500, 300}, {-1, -1}, {0, 0}, 250, 5, sf::Color(250, 250, 250));
+    Body body3({50, 300}, {1, 1}, {0, 0}, 250, 5, sf::Color(250, 250, 250));
     bodies.push_back(body1);
     bodies.push_back(body2);
+    bodies.push_back(body3);
 
     while (window.isOpen()) {
         // Get delta time
