@@ -68,17 +68,17 @@ void resetAcc(std::vector<Body>& bodies) {
     }
 }
 
-void updateVel(std::vector<Body>& bodies) {
+void updateVel(std::vector<Body>& bodies, float deltaTime) {
     for (Body& body : bodies) {
-        body.vel += body.acc;
-        body.pos += body.vel;
+        body.vel += body.acc * deltaTime;
+        body.pos += body.vel * deltaTime;
     }
 }
 
-void simulation(std::vector<Body>& bodies) {
+void simulation(std::vector<Body>& bodies, float deltaTime) {
     resetAcc(bodies);
     simulateGravity(bodies);
-    updateVel(bodies);
+    updateVel(bodies, deltaTime);
 }
 
 int main() {
@@ -88,9 +88,9 @@ int main() {
     sf::Clock clock;
 
     std::vector<Body> bodies;
-    Body body1({300, 300}, {0, 0}, {0, 0}, 10000, 20, sf::Color(250, 150, 100));
-    Body body2({500, 300}, {-1, -1}, {0, 0}, 250, 5, sf::Color(250, 250, 250));
-    Body body3({50, 300}, {1, 1}, {0, 0}, 250, 5, sf::Color(250, 250, 250));
+    Body body1({300, 300}, {0, 0}, {0, 0}, 40000000, 20, sf::Color(250, 150, 100));
+    Body body2({500, 300}, {-60, -60}, {0, 0}, 15000, 5, sf::Color(250, 250, 250));
+    Body body3({50, 300}, {60, 60}, {0, 0}, 15000, 5, sf::Color(250, 250, 250));
     bodies.push_back(body1);
     bodies.push_back(body2);
     bodies.push_back(body3);
@@ -108,7 +108,7 @@ int main() {
         }
 
         // Simulation
-        simulation(bodies);
+        simulation(bodies, deltaTime);
         // Render
         window.clear();
         renderBodies(window, bodies);
