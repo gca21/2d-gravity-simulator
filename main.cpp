@@ -61,9 +61,9 @@ int main() {
     sf::Clock clock;
 
     std::vector<Body> bodies;
-    Body body1({300, 300}, {0, 0}, {0, 0}, 40000000, 20, sf::Color(250, 150, 100));
-    Body body2({500, 300}, {-60, -60}, {0, 0}, 15000, 5, sf::Color(250, 250, 250));
-    Body body3({50, 300}, {60, 60}, {0, 0}, 15000, 5, sf::Color(250, 250, 250));
+    Body body1({300, 300}, {0, 0}, {0, 0}, 40000000, 20, sf::Color(255, 150, 100));
+    Body body2({500, 300}, {-60, -60}, {0, 0}, 15000, 5, sf::Color(255, 255, 255));
+    Body body3({50, 300}, {60, 60}, {0, 0}, 15000, 5, sf::Color(255, 255, 255));
     bodies.push_back(body1);
     bodies.push_back(body2);
     bodies.push_back(body3);

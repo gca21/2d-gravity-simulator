@@ -9,7 +9,18 @@ Body::Body(sf::Vector2f p, sf::Vector2f v, sf::Vector2f a, float m, int r, sf::C
     color = c;
 }
 
+void Body::drawTrajectory(sf::RenderWindow& window) {
+    for (sf::Vector2f oldPos : trajectory) {
+        sf::CircleShape circle;
+        circle.setRadius(TRAJECTORY_POINT_RADIUS);
+        circle.setFillColor(sf::Color(color.r, color.g, color.b, 100));
+        circle.setPosition({oldPos.x + radius, oldPos.y + radius});
+        window.draw(circle);
+    }
+}
+
 void Body::draw(sf::RenderWindow& window) {
+    drawTrajectory(window);
     sf::CircleShape circle;
     circle.setRadius(radius);
     circle.setFillColor(color);
@@ -18,8 +29,22 @@ void Body::draw(sf::RenderWindow& window) {
 }
 
 void Body::update(float deltaTime) {
+    // Update velocity and position
     vel += acc * deltaTime;
     pos += vel * deltaTime;
+    // Update trajectory
+    if (trajectory.empty()) {
+        trajectory.push_back(pos);
+        return;
+    }
+    if ((trajectory.back() - pos).length() < MIN_TRAJECTORY_DISTANCE) {
+        return;
+    }
+    if (trajectory.size() == MAX_TRAJECTORY_SIZE) {
+        trajectory.pop_front();
+    }
+    trajectory.push_back(pos);
+
 }
 
 void Body::accelerate(sf::Vector2f acceleration) {
