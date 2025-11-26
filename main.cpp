@@ -1,77 +1,50 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "Body.h"
 
 const float GRAVITATIONAL_CONSTANT = 0.1;
 
-struct Body {
-    sf::Vector2f pos;
-    sf::Vector2f vel;
-    sf::Vector2f acc;
-    float mass;
-    int radius;
-    sf::Color color;
-
-    Body(sf::Vector2f p, sf::Vector2f v, sf::Vector2f a, float m, int r, sf::Color c) {
-        pos = p;
-        vel = v;
-        acc = a;
-        mass = m;
-        radius = r;
-        color = c;
-    }
-};
-
-void drawBody(sf::RenderWindow& window, Body& body) {
-    sf::CircleShape circle;
-    circle.setRadius(body.radius);
-    circle.setFillColor(body.color);
-    circle.setPosition(body.pos);
-    window.draw(circle);
-
-}
-
 void renderBodies(sf::RenderWindow& window, std::vector<Body>& bodies) {
     for (Body& body : bodies) {
-        drawBody(window, body);
+        body.draw(window);
     }
 }
 
 float calculateGravityForce(Body& body1, Body& body2) {
-    float sqrDistance = (body1.pos - body2.pos).lengthSquared();
-    return (GRAVITATIONAL_CONSTANT*body1.mass*body2.mass) / sqrDistance;
+    float sqrDistance = (body1.getPos() - body2.getPos()).lengthSquared();
+    return (GRAVITATIONAL_CONSTANT*body1.getMass()*body2.getMass()) / sqrDistance;
 }
 
 sf::Vector2f calculateUnitVector(Body& body1, Body& body2) {
-    sf::Vector2f difference = body1.pos - body2.pos;
+    sf::Vector2f difference = body1.getPos() - body2.getPos();
     float distance = difference.length();
     return difference / distance;
 }
 
 void simulateGravity(std::vector<Body>& bodies) {
     for (unsigned int i = 0; i < bodies.size(); i++) {
-        Body body1 = bodies[i];
+        Body& body1 = bodies[i];
         for (unsigned int j = 0; j < bodies.size(); j++) {
             if (i == j) {
                 continue;
             }
-            Body body2 = bodies[j];
+            Body& body2 = bodies[j];
             float force = calculateGravityForce(body1, body2);
             sf::Vector2f forceVec = calculateUnitVector(body1, body2) * force;
-            bodies[j].acc += forceVec / body2.mass;
+            body2.accelerate(forceVec / body2.getMass());
         }
     }
 }
 
 void resetAcc(std::vector<Body>& bodies) {
     for (Body& body : bodies) {
-        body.acc = {0, 0};
+        body.setAcc({0, 0});
     }
 }
 
 void updateVel(std::vector<Body>& bodies, float deltaTime) {
     for (Body& body : bodies) {
-        body.vel += body.acc * deltaTime;
-        body.pos += body.vel * deltaTime;
+        body.update(deltaTime);
     }
 }
 
