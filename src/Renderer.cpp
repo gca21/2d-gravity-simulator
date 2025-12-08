@@ -1,4 +1,4 @@
-#include "Renderer.h"
+#include "../include/Renderer.h"
 
 Renderer::Renderer() {
     window = sf::RenderWindow(sf::VideoMode({800, 600}), "2D Gravity simulator");

@@ -1,8 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include "Body.h"
-#include "Physics.h"
-#include "Renderer.h"
+#include "../include/Body.h"
+#include "../include/Physics.h"
+#include "../include/Renderer.h"
 
 const float GRAVITATIONAL_CONSTANT = 0.1;
 

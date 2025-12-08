@@ -1,4 +1,4 @@
-#include "Physics.h"
+#include "../include/Physics.h"
 
 Physics::Physics(float gravitationalConstant) {
     G = gravitationalConstant;
