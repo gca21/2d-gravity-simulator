@@ -2,19 +2,11 @@
 #include <vector>
 #include "Body.h"
 #include "Physics.h"
+#include "Renderer.h"
 
 const float GRAVITATIONAL_CONSTANT = 0.1;
 
-void renderBodies(sf::RenderWindow& window, std::vector<Body>& bodies) {
-    for (Body& body : bodies) {
-        body.draw(window);
-    }
-}
-
 int main() {
-
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "2D Gravity simulator");
-    window.setFramerateLimit(60);
     sf::Clock clock;
 
     std::vector<Body> bodies;
@@ -26,25 +18,19 @@ int main() {
     bodies.push_back(body3);
 
     Physics physics(GRAVITATIONAL_CONSTANT);
+    Renderer renderer;
 
-    while (window.isOpen()) {
+    while (renderer.isWindowOpen()) {
         // Get delta time
         float deltaTime = clock.getElapsedTime().asSeconds();
         clock.restart();
 
-        // Process events
-        while (const std::optional event = window.pollEvent()) {
-            if (event->is<sf::Event::Closed>()) {
-                window.close();
-            }
-        }
+        renderer.processEvents();
 
         // Simulation
         physics.simulation(bodies, deltaTime);
         // Render
-        window.clear();
-        renderBodies(window, bodies);
-        window.display();
+        renderer.render(bodies);
     }
     return 0;
 }
