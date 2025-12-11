@@ -30,7 +30,7 @@ int main() {
         // Simulation
         physics.simulation(bodies, deltaTime);
         // Render
-        renderer.render(bodies);
+        renderer.render(bodies, deltaTime);
     }
     return 0;
 }
