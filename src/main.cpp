@@ -5,9 +5,12 @@
 #include "../include/Renderer.h"
 
 const float GRAVITATIONAL_CONSTANT = 0.1;
+const unsigned int SIMULATIONS_PER_SECOND = 60;
+const float SIMULATION_DELTA_TIME = (float)1/SIMULATIONS_PER_SECOND;
 
 int main() {
     sf::Clock clock;
+    float accumulator = 0.0f;
 
     std::vector<Body> bodies;
     Body body1({300, 300}, {0, 0}, {0, 0}, 40000000, 20, sf::Color(255, 150, 100));
@@ -21,14 +24,18 @@ int main() {
     Renderer renderer;
 
     while (renderer.isWindowOpen()) {
-        // Get delta time
+        // Get time between full iterations
         float deltaTime = clock.getElapsedTime().asSeconds();
         clock.restart();
 
         renderer.processEvents();
 
-        // Simulation
-        physics.simulation(bodies, deltaTime);
+        // Simulate at fixed timestep
+        accumulator += deltaTime;
+        while (accumulator >= SIMULATION_DELTA_TIME) {
+            physics.simulation(bodies, SIMULATION_DELTA_TIME);
+            accumulator -= SIMULATION_DELTA_TIME;
+        }
         // Render
         renderer.render(bodies, deltaTime);
     }
