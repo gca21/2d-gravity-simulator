@@ -7,7 +7,7 @@ Renderer::Renderer() {
     // Font and text
     if (robotoFont.openFromFile("../assets/Roboto-Regular.ttf")) {
         fontAvailable = true;
-        fpsText.emplace(robotoFont, "Fps display", 12);
+        fpsText.emplace(robotoFont, "", 12);
         std::cout << "emplace" << '\n';
         fpsText->setFillColor(sf::Color::White);
     }

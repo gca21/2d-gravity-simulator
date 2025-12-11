@@ -14,7 +14,7 @@ class Renderer {
         sf::Font robotoFont;
         bool fontAvailable = true;
         std::optional<sf::Text> fpsText;
-        const unsigned int DISPLAY_COUNTER_MAX = 5;
+        const unsigned int DISPLAY_COUNTER_MAX = 15;
         unsigned int fpsDisplayCounter = DISPLAY_COUNTER_MAX;
     public:
         Renderer();
