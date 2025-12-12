@@ -1,9 +1,6 @@
 #include "../include/Renderer.h"
 
 Renderer::Renderer() {
-    // Window
-    window = sf::RenderWindow(sf::VideoMode({800, 600}), "2D Gravity simulator");
-    window.setFramerateLimit(60);
     // Font and text
     if (robotoFont.openFromFile("../assets/Roboto-Regular.ttf")) {
         fontAvailable = true;
@@ -17,21 +14,32 @@ Renderer::Renderer() {
 
 }
 
-void Renderer::drawBodies(std::vector<Body>& bodies) {
-    for (Body& body : bodies) {
-        body.draw(window);
+void Renderer::drawTrajectory(sf::RenderWindow& window, const Body& body) {
+    for (const sf::Vector2f& oldPos : body.getTrajectory()) {
+        sf::CircleShape circle;
+        circle.setRadius(TRAJECTORY_POINT_RADIUS);
+        circle.setFillColor(sf::Color(body.getColor().r, body.getColor().g, body.getColor().b, 100));
+        circle.setPosition({oldPos.x + body.getRadius(), oldPos.y + body.getRadius()});
+        window.draw(circle);
     }
 }
 
-void Renderer::processEvents() {
-    while (const std::optional event = window.pollEvent()) {
-        if (event->is<sf::Event::Closed>()) {
-            window.close();
-        }
+void Renderer::drawBody(sf::RenderWindow& window, const Body& body) {
+    drawTrajectory(window, body);
+    sf::CircleShape circle;
+    circle.setRadius(body.getRadius());
+    circle.setFillColor(body.getColor());
+    circle.setPosition(body.getPos());
+    window.draw(circle);
+}
+
+void Renderer::drawBodies(sf::RenderWindow& window, const std::vector<Body>& bodies) {
+    for (const Body& body : bodies) {
+        drawBody(window, body);
     }
 }
 
-void Renderer::drawFps(const float& deltaTime) {
+void Renderer::drawFps(sf::RenderWindow& window, const float& deltaTime) {
     if (!fontAvailable || !fpsText.has_value()) {
         return;
     }
@@ -46,14 +54,10 @@ void Renderer::drawFps(const float& deltaTime) {
     window.draw(*fpsText);
 }
 
-void Renderer::render(std::vector<Body>& bodies, const float& deltaTime) {
+void Renderer::render(sf::RenderWindow& window, const std::vector<Body>& bodies, const float& deltaTime) {
     window.clear();
-    drawFps(deltaTime);
-    drawBodies(bodies);
+    drawFps(window, deltaTime);
+    drawBodies(window, bodies);
     window.display();
-}
-
-bool Renderer::isWindowOpen() {
-    return window.isOpen();
 }
 

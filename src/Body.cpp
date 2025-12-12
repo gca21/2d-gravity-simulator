@@ -10,13 +10,7 @@ Body::Body(sf::Vector2f p, sf::Vector2f v, sf::Vector2f a, float m, int r, sf::C
 }
 
 void Body::drawTrajectory(sf::RenderWindow& window) {
-    for (sf::Vector2f oldPos : trajectory) {
-        sf::CircleShape circle;
-        circle.setRadius(TRAJECTORY_POINT_RADIUS);
-        circle.setFillColor(sf::Color(color.r, color.g, color.b, 100));
-        circle.setPosition({oldPos.x + radius, oldPos.y + radius});
-        window.draw(circle);
-    }
+
 }
 
 void Body::draw(sf::RenderWindow& window) {
@@ -51,28 +45,32 @@ void Body::accelerate(sf::Vector2f acceleration) {
     acc += acceleration;
 }
 
-sf::Vector2f Body::getPos() {
+sf::Vector2f Body::getPos() const {
     return pos;
 }
 
-sf::Vector2f Body::getVel() {
+sf::Vector2f Body::getVel() const {
     return vel;
 }
 
-sf::Vector2f Body::getAcc() {
+sf::Vector2f Body::getAcc() const {
     return acc;
 }
 
-float Body::getMass() {
+float Body::getMass() const {
     return mass;
 }
 
-int Body::getRadius() {
+int Body::getRadius() const {
     return radius;
 }
 
-sf::Color Body::getColor() {
+sf::Color Body::getColor() const {
     return color;
+}
+
+const std::deque<sf::Vector2f>& Body::getTrajectory() const {
+    return trajectory;
 }
 
 void Body::setPos(sf::Vector2f p) {

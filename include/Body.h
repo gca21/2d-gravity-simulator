@@ -7,7 +7,6 @@
 class Body {
     private:
         const float MIN_TRAJECTORY_DISTANCE = 10;
-        const int TRAJECTORY_POINT_RADIUS = 1;
         sf::Vector2f pos;
         sf::Vector2f vel;
         sf::Vector2f acc;
@@ -26,12 +25,13 @@ class Body {
         void update(float deltaTime);
         void accelerate(sf::Vector2f acceleration);
 
-        sf::Vector2f getPos();
-        sf::Vector2f getVel();
-        sf::Vector2f getAcc();
-        float getMass();
-        int getRadius();
-        sf::Color getColor();
+        sf::Vector2f getPos() const;
+        sf::Vector2f getVel() const;
+        sf::Vector2f getAcc() const;
+        float getMass() const;
+        int getRadius() const;
+        sf::Color getColor() const;
+        const std::deque<sf::Vector2f>& getTrajectory() const;
 
         void setPos(sf::Vector2f p);
         void setVel(sf::Vector2f v);

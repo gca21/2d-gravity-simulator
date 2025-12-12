@@ -10,7 +10,7 @@
 
 class Renderer {
     private:
-        sf::RenderWindow window;
+        const int TRAJECTORY_POINT_RADIUS = 1;
         sf::Font robotoFont;
         bool fontAvailable = true;
         std::optional<sf::Text> fpsText;
@@ -18,12 +18,11 @@ class Renderer {
         unsigned int fpsDisplayCounter = DISPLAY_COUNTER_MAX;
     public:
         Renderer();
-
-        void drawBodies(std::vector<Body>& bodies);
-        void processEvents();
-        void drawFps(const float& deltaTime);
-        void render(std::vector<Body>& bodies, const float& deltaTime);
-        bool isWindowOpen();
+        void drawTrajectory(sf::RenderWindow& window, const Body& body);
+        void drawBody(sf::RenderWindow& window, const Body& body);
+        void drawBodies(sf::RenderWindow& window, const std::vector<Body>& bodies);
+        void drawFps(sf::RenderWindow& window, const float& deltaTime);
+        void render(sf::RenderWindow& window, const std::vector<Body>& bodies, const float& deltaTime);
 };
 
 

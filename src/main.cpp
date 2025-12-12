@@ -8,7 +8,19 @@ const float GRAVITATIONAL_CONSTANT = 0.1;
 const unsigned int SIMULATIONS_PER_SECOND = 60;
 const float SIMULATION_DELTA_TIME = (float)1/SIMULATIONS_PER_SECOND;
 
+
+void processEvents(sf::RenderWindow& window) {
+    while (const std::optional event = window.pollEvent()) {
+        if (event->is<sf::Event::Closed>()) {
+            window.close();
+        }
+    }
+}
+
 int main() {
+    // Window
+    sf::RenderWindow window = sf::RenderWindow(sf::VideoMode({800, 600}), "2D Gravity simulator");
+    window.setFramerateLimit(60);
     sf::Clock clock;
     float accumulator = 0.0f;
 
@@ -23,12 +35,12 @@ int main() {
     Physics physics(GRAVITATIONAL_CONSTANT);
     Renderer renderer;
 
-    while (renderer.isWindowOpen()) {
+    while (window.isOpen()) {
         // Get time between full iterations
         float deltaTime = clock.getElapsedTime().asSeconds();
         clock.restart();
 
-        renderer.processEvents();
+        processEvents(window);
 
         // Simulate at fixed timestep
         accumulator += deltaTime;
@@ -37,7 +49,7 @@ int main() {
             accumulator -= SIMULATION_DELTA_TIME;
         }
         // Render
-        renderer.render(bodies, deltaTime);
+        renderer.render(window, bodies, deltaTime);
     }
     return 0;
 }
