@@ -9,19 +9,6 @@ Body::Body(sf::Vector2f p, sf::Vector2f v, sf::Vector2f a, float m, int r, sf::C
     color = c;
 }
 
-void Body::drawTrajectory(sf::RenderWindow& window) {
-
-}
-
-void Body::draw(sf::RenderWindow& window) {
-    drawTrajectory(window);
-    sf::CircleShape circle;
-    circle.setRadius(radius);
-    circle.setFillColor(color);
-    circle.setPosition(pos);
-    window.draw(circle);
-}
-
 void Body::update(float deltaTime) {
     // Update velocity and position
     vel += acc * deltaTime;

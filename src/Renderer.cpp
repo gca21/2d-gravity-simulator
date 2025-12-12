@@ -5,7 +5,6 @@ Renderer::Renderer() {
     if (robotoFont.openFromFile("../assets/Roboto-Regular.ttf")) {
         fontAvailable = true;
         fpsText.emplace(robotoFont, "", 12);
-        std::cout << "emplace" << '\n';
         fpsText->setFillColor(sf::Color::White);
     }
     else {

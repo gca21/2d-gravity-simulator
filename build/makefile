@@ -1,6 +1,6 @@
 SFML = -lsfml-graphics -lsfml-window -lsfml-system
 
-OBJS = main.o Body.o Physics.o Renderer.o
+OBJS = main.o Body.o Physics.o Renderer.o Universe.o
 
 TARGET = simulator
 
@@ -18,8 +18,11 @@ Physics.o: ../src/Physics.cpp ../include/Physics.h
 Renderer.o: ../src/Renderer.cpp ../include/Renderer.h
 	g++ -c ../src/Renderer.cpp
 
-main.o: ../src/main.cpp ../include/Body.h ../include/Physics.h ../include/Renderer.h
+Universe.o: ../src/Universe.cpp ../include/Universe.h
+	g++ -c ../src/Universe.cpp
+
+main.o: ../src/main.cpp ../include/Body.h ../include/Physics.h ../include/Renderer.h ../include/Universe.h
 	g++ -c ../src/main.cpp
 
 clean:
-	rm simulator Body.o main.o Physics.o Renderer.o
+	rm simulator Body.o main.o Physics.o Renderer.o Universe.o
