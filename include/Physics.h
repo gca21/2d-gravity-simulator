@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "Body.h"
+#include "VecMath.hpp"
 
 class Physics {
     private:
@@ -11,7 +12,6 @@ class Physics {
     public:
         Physics(float gravitationalConstant);
 
-        sf::Vector2f calculateUnitVector(Body& body1, Body& body2) const;
         float calculateGravityForce(Body& body1, Body& body2) const;
         void simulateGravity(std::vector<Body>& bodies) const;
         void resetAcc(std::vector<Body>& bodies) const;

@@ -4,15 +4,6 @@ Physics::Physics(float gravitationalConstant) {
     G = gravitationalConstant;
 }
 
-sf::Vector2f Physics::calculateUnitVector(Body& body1, Body& body2) const {
-    sf::Vector2f difference = body1.getPos() - body2.getPos();
-    float distance = difference.length();
-    if (distance == 0) {
-        distance = 0.01;
-    }
-    return difference / distance;
-}
-
 float Physics::calculateGravityForce(Body& body1, Body& body2) const {
     float sqrDistance = (body1.getPos() - body2.getPos()).lengthSquared();
     if (sqrDistance == 0) {
@@ -30,7 +21,7 @@ void Physics::simulateGravity(std::vector<Body>& bodies) const {
             }
             Body& body2 = bodies[j];
             float force = calculateGravityForce(body1, body2);
-            sf::Vector2f forceVec = calculateUnitVector(body1, body2) * force;
+            sf::Vector2f forceVec = VecMath::calculateUnitVector(body1.getPos(), body2.getPos()) * force;
             body2.accelerate(forceVec / body2.getMass());
         }
     }
