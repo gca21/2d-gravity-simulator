@@ -7,11 +7,17 @@ Physics::Physics(float gravitationalConstant) {
 sf::Vector2f Physics::calculateUnitVector(Body& body1, Body& body2) const {
     sf::Vector2f difference = body1.getPos() - body2.getPos();
     float distance = difference.length();
+    if (distance == 0) {
+        distance = 0.01;
+    }
     return difference / distance;
 }
 
 float Physics::calculateGravityForce(Body& body1, Body& body2) const {
     float sqrDistance = (body1.getPos() - body2.getPos()).lengthSquared();
+    if (sqrDistance == 0) {
+        sqrDistance = 0.01;
+    }
     return (G*body1.getMass()*body2.getMass()) / sqrDistance;
 }
 
