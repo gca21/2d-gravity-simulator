@@ -53,10 +53,18 @@ void Renderer::drawFps(sf::RenderWindow& window, const float& deltaTime) {
     window.draw(*fpsText);
 }
 
-void Renderer::render(sf::RenderWindow& window, const std::vector<Body>& bodies, const float& deltaTime) {
+void Renderer::render(
+    sf::RenderWindow& window, 
+    const std::vector<Body>& bodies, 
+    const float& deltaTime,
+    const std::optional<Body>& previewBody)
+    {
     window.clear();
     drawFps(window, deltaTime);
     drawBodies(window, bodies);
+    if (previewBody) {
+        drawBody(window, *previewBody);
+    }
     window.display();
 }
 

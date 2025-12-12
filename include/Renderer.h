@@ -22,7 +22,12 @@ class Renderer {
         void drawBody(sf::RenderWindow& window, const Body& body);
         void drawBodies(sf::RenderWindow& window, const std::vector<Body>& bodies);
         void drawFps(sf::RenderWindow& window, const float& deltaTime);
-        void render(sf::RenderWindow& window, const std::vector<Body>& bodies, const float& deltaTime);
+        void render(
+            sf::RenderWindow& window, 
+            const std::vector<Body>& bodies, 
+            const float& deltaTime,
+            const std::optional<Body>& previewBody
+        );
 };
 
 

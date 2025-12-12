@@ -7,13 +7,20 @@ Universe::Universe() {
 }
 
 void Universe::processEvents() {
-        while (const std::optional event = window.pollEvent()) {
+    leftMouseClickThisFrame = false;
+    while (const std::optional event = window.pollEvent()) {
         if (event->is<sf::Event::Closed>()) {
             window.close();
         }
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-            bodies.push_back(Body({500, 300}, {-60, -60}, {0, 0}, 15000, 5, sf::Color(255, 255, 255)));
+            leftMouseClickThisFrame = true;
         }
+
+        if (leftMouseClickThisFrame && !leftMouseClickLastFrame) {
+            sf::Vector2f mousePos(sf::Mouse::getPosition(window));
+            bodyManager.addBody(bodies, previewBody, mousePos);
+        }
+        leftMouseClickLastFrame = leftMouseClickThisFrame;
     }
 }
 
@@ -42,6 +49,6 @@ void Universe::run() {
             accumulator -= SIMULATION_DELTA_TIME;
         }
         // Render
-        renderer.render(window, bodies, deltaTime);
+        renderer.render(window, bodies, deltaTime, previewBody);
     }
 }

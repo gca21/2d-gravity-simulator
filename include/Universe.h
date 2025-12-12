@@ -4,6 +4,7 @@
 #include "../include/Body.h"
 #include "../include/Physics.h"
 #include "../include/Renderer.h"
+#include "../include/BodyManager.h"
 #include <vector>
 
 
@@ -16,7 +17,11 @@ class Universe {
         std::vector<Body> bodies;
         Physics physics = Physics(GRAVITATIONAL_CONSTANT);
         Renderer renderer;
-
+        BodyManager bodyManager;
+        std::optional<Body> previewBody; // New body created by user
+        // Anti-spam for creating bodies
+        bool leftMouseClickThisFrame = false;
+        bool leftMouseClickLastFrame = false;
     public:
         Universe();
         void processEvents();
