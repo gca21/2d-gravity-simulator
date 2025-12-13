@@ -18,28 +18,29 @@ void Renderer::drawTrajectory(sf::RenderWindow& window, const Body& body) {
         sf::CircleShape circle;
         circle.setRadius(TRAJECTORY_POINT_RADIUS);
         circle.setFillColor(sf::Color(body.getColor().r, body.getColor().g, body.getColor().b, 100));
-        circle.setPosition({oldPos.x + body.getRadius(), oldPos.y + body.getRadius()});
+        circle.setPosition({oldPos.x - circle.getRadius(), oldPos.y - circle.getRadius()});
         window.draw(circle);
     }
 }
 
 void Renderer::drawBody(sf::RenderWindow& window, const Body& body) {
     drawTrajectory(window, body);
+    // Draw circle
     sf::CircleShape circle;
     circle.setRadius(body.getRadius());
     circle.setFillColor(body.getColor());
-    circle.setPosition(body.getPos());
+    circle.setPosition({body.getPos().x - body.getRadius(), body.getPos().y - body.getRadius()});
     window.draw(circle);
 }
 
 void Renderer::drawPreviewVel(sf::RenderWindow& window, const Body& body) {
     sf::Vector2f lastPointPos = body.getPos() + body.getVel();
     sf::Vector2f step = VecMath::calculateStep(lastPointPos, body.getPos(), N_VEL_PREVIEW_POINTS);
+    // Draw preview
     sf::CircleShape circle;
     circle.setRadius(TRAJECTORY_POINT_RADIUS);
     circle.setFillColor(sf::Color(body.getColor().r, body.getColor().g, body.getColor().b, 100));
-    circle.setPosition({body.getPos().x + body.getRadius(), body.getPos().y + body.getRadius()});
-
+    circle.setPosition({body.getPos().x - circle.getRadius(), body.getPos().y - circle.getRadius()});
     for (int i = 0; i < N_VEL_PREVIEW_POINTS; i++) {
         circle.setPosition(circle.getPosition() + step);
         window.draw(circle);
