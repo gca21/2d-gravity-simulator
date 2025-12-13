@@ -8,22 +8,29 @@ Universe::Universe() {
 
 void Universe::processEvents() {
     leftMouseClickThisFrame = false;
+    bool mouseMoved = false;
     while (const std::optional event = window.pollEvent()) {
         if (event->is<sf::Event::Closed>()) {
             window.close();
         }
-        else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-            leftMouseClickThisFrame = true;
+        else if (const auto* mousePressed = event->getIf<sf::Event::MouseButtonPressed>()) {
+            if (mousePressed->button == sf::Mouse::Button::Left) {
+                leftMouseClickThisFrame = true;
+            }
         }
-        else if (event->is<sf::Event::MouseMoved>()) {
-            bodyManager.updatePreviewVel(previewBody, sf::Vector2f(sf::Mouse::getPosition(window)));
+        else if (const auto* e = event->getIf<sf::Event::MouseMoved>()) {
+            mouseMoved = true;
         }
+    }
 
-        if (leftMouseClickThisFrame && !leftMouseClickLastFrame) {
-            sf::Vector2f mousePos(sf::Mouse::getPosition(window));
-            bodyManager.addBody(bodies, previewBody, mousePos);
-        }
-        leftMouseClickLastFrame = leftMouseClickThisFrame;
+    if (leftMouseClickThisFrame && !leftMouseClickLastFrame) {
+        sf::Vector2f mousePos(sf::Mouse::getPosition(window));
+        bodyManager.addBody(bodies, previewBody, mousePos);
+    }
+    leftMouseClickLastFrame = leftMouseClickThisFrame;
+
+    if (mouseMoved) {
+        bodyManager.updatePreviewVel(previewBody, sf::Vector2f(sf::Mouse::getPosition(window)));
     }
 }
 
@@ -32,11 +39,7 @@ void Universe::run() {
     float accumulator = 0.0f;
 
     Body body1({300, 300}, {0, 0}, {0, 0}, 40000000, 20, sf::Color(255, 150, 100));
-    Body body2({500, 300}, {-60, -60}, {0, 0}, 15000, 5, sf::Color(255, 255, 255));
-    Body body3({50, 300}, {60, 60}, {0, 0}, 15000, 5, sf::Color(255, 255, 255));
     bodies.push_back(body1);
-    bodies.push_back(body2);
-    bodies.push_back(body3);
 
     while (window.isOpen()) {
         // Get time between full iterations

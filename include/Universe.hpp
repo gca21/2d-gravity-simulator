@@ -20,7 +20,6 @@ class Universe {
         Renderer renderer;
         BodyManager bodyManager;
         std::optional<Body> previewBody; // New body created by user
-        // Anti-spam for creating bodies
         bool leftMouseClickThisFrame = false;
         bool leftMouseClickLastFrame = false;
     public:

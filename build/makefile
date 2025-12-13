@@ -24,9 +24,8 @@ BodyManager.o: $(SRCDIR)BodyManager.cpp $(IDIR)BodyManager.hpp $(IDIR)Body.hpp $
 Physics.o: $(SRCDIR)Physics.cpp $(IDIR)Physics.hpp $(IDIR)Body.hpp $(IDIR)VecMath.hpp
 	g++ -c -I $(IDIR) $(SRCDIR)Physics.cpp
 
-Renderer.o: $(SRCDIR)Renderer.cpp $(IDIR)Renderer.hpp
+Renderer.o: $(SRCDIR)Renderer.cpp $(IDIR)Renderer.hpp $(IDIR)VecMath.hpp
 	g++ -c -I $(IDIR) $(SRCDIR)Renderer.cpp
-
 
 Universe.o: $(SRCDIR)Universe.cpp $(IDIR)Universe.hpp $(IDIR)Body.hpp $(IDIR)BodyManager.hpp $(IDIR)Physics.hpp $(IDIR)Renderer.hpp
 	g++ -c -I $(IDIR) $(SRCDIR)Universe.cpp

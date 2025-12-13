@@ -32,6 +32,21 @@ void Renderer::drawBody(sf::RenderWindow& window, const Body& body) {
     window.draw(circle);
 }
 
+void Renderer::drawPreviewVel(sf::RenderWindow& window, const Body& body) {
+    sf::Vector2f lastPointPos = body.getPos() + body.getVel();
+    sf::Vector2f step = VecMath::calculateStep(lastPointPos, body.getPos(), N_VEL_PREVIEW_POINTS);
+    sf::CircleShape circle;
+    circle.setRadius(TRAJECTORY_POINT_RADIUS);
+    circle.setFillColor(sf::Color(body.getColor().r, body.getColor().g, body.getColor().b, 100));
+    circle.setPosition({body.getPos().x + body.getRadius(), body.getPos().y + body.getRadius()});
+
+    for (int i = 0; i < N_VEL_PREVIEW_POINTS; i++) {
+        circle.setPosition(circle.getPosition() + step);
+        window.draw(circle);
+    }
+
+}
+
 void Renderer::drawBodies(sf::RenderWindow& window, const std::vector<Body>& bodies) {
     for (const Body& body : bodies) {
         drawBody(window, body);
@@ -64,6 +79,7 @@ void Renderer::render(
     drawBodies(window, bodies);
     if (previewBody) {
         drawBody(window, *previewBody);
+        drawPreviewVel(window, *previewBody);
     }
     window.display();
 }
