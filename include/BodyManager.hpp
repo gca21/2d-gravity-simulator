@@ -8,12 +8,14 @@
 
 class BodyManager {
     private:
-        
+        const int DEFAULT_BODY_RADIUS = 5;
+        const int DEFAULT_BODY_MASS = 1500;
 
     public:
         BodyManager();
         void addBody(std::vector<Body>& bodies, std::optional<Body>& previewBody, sf::Vector2f mousePos);
         void updatePreviewVel(std::optional<Body>& previewBody, sf::Vector2f mousePos);
+        void updatePreviewSize(std::optional<Body>& previewBody, float mouseWheelDelta);
 
 };
 

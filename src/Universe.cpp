@@ -2,13 +2,15 @@
 
 
 Universe::Universe() {
-    window = sf::RenderWindow(sf::VideoMode({800, 600}), "2D Gravity simulator");
+    window = sf::RenderWindow(sf::VideoMode({1200, 900}), "2D Gravity simulator");
     window.setFramerateLimit(60);
 }
 
 void Universe::processEvents() {
     leftMouseClickThisFrame = false;
     bool mouseMoved = false;
+    bool mouseScrolled = false;
+    float mouseWheelDelta;
     while (const std::optional event = window.pollEvent()) {
         if (event->is<sf::Event::Closed>()) {
             window.close();
@@ -21,6 +23,10 @@ void Universe::processEvents() {
         else if (const auto* e = event->getIf<sf::Event::MouseMoved>()) {
             mouseMoved = true;
         }
+        else if (const auto* e = event->getIf<sf::Event::MouseWheelScrolled>()) {
+            mouseScrolled = true;
+            mouseWheelDelta = e->delta;
+        }
     }
 
     if (leftMouseClickThisFrame && !leftMouseClickLastFrame) {
@@ -32,14 +38,14 @@ void Universe::processEvents() {
     if (mouseMoved) {
         bodyManager.updatePreviewVel(previewBody, sf::Vector2f(sf::Mouse::getPosition(window)));
     }
+    if (mouseScrolled) {
+        bodyManager.updatePreviewSize(previewBody, mouseWheelDelta);
+    }
 }
 
 void Universe::run() {
     sf::Clock clock;
     float accumulator = 0.0f;
-
-    Body body1({300, 300}, {0, 0}, {0, 0}, 40000000, 20, sf::Color(255, 150, 100));
-    bodies.push_back(body1);
 
     while (window.isOpen()) {
         // Get time between full iterations
