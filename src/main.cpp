@@ -1,4 +1,4 @@
-#include "../include/Universe.h"
+#include "Universe.hpp"
 
 int main() {
     Universe universe;

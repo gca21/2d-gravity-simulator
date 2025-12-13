@@ -1,12 +1,13 @@
-#ifndef RENDERER_H
-#define RENDERER_H
+#ifndef RENDERER_HPP
+#define RENDERER_HPP
 
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
 #include <optional>
 #include <sstream>
-#include "Body.h"
+
+#include "Body.hpp"
 
 class Renderer {
     private:

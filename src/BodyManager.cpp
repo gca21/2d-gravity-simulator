@@ -1,4 +1,4 @@
-#include "../include/BodyManager.h"
+#include "BodyManager.hpp"
 
 BodyManager::BodyManager() {
 

@@ -2,6 +2,9 @@ SFML = -lsfml-graphics -lsfml-window -lsfml-system
 
 OBJS = main.o Body.o Physics.o Renderer.o Universe.o BodyManager.o VecMath.o
 
+IDIR = ../include/
+SRCDIR = ../src/
+
 TARGET = simulator
 
 all: $(TARGET)
@@ -9,26 +12,27 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	g++ $(OBJS) -o $(TARGET) $(SFML)
 
-Body.o: ../src/Body.cpp ../include/Body.h
-	g++ -c ../src/Body.cpp
+VecMath.o: $(SRCDIR)VecMath.cpp $(IDIR)VecMath.hpp
+	g++ -c $(SRCDIR)VecMath.cpp
 
-Physics.o: ../src/Physics.cpp ../include/Physics.h
-	g++ -c ../src/Physics.cpp
+Body.o: $(SRCDIR)Body.cpp $(IDIR)Body.hpp
+	g++ -c -I $(IDIR) $(SRCDIR)Body.cpp
 
-Renderer.o: ../src/Renderer.cpp ../include/Renderer.h
-	g++ -c ../src/Renderer.cpp
+BodyManager.o: $(SRCDIR)BodyManager.cpp $(IDIR)BodyManager.hpp $(IDIR)Body.hpp
+	g++ -c -I $(IDIR) $(SRCDIR)BodyManager.cpp
 
-BodyManager.o: ../src/BodyManager.cpp ../include/BodyManager.h
-	g++ -c ../src/BodyManager.cpp
+Physics.o: $(SRCDIR)Physics.cpp $(IDIR)Physics.hpp $(IDIR)Body.hpp $(IDIR)VecMath.hpp
+	g++ -c -I $(IDIR) $(SRCDIR)Physics.cpp
 
-VecMath.o: ../src/VecMath.cpp ../include/VecMath.hpp
-	g++ -c ../src/VecMath.cpp
+Renderer.o: $(SRCDIR)Renderer.cpp $(IDIR)Renderer.hpp
+	g++ -c -I $(IDIR) $(SRCDIR)Renderer.cpp
 
-Universe.o: ../src/Universe.cpp ../include/Universe.h
-	g++ -c ../src/Universe.cpp
 
-main.o: ../src/main.cpp ../include/Body.h ../include/Physics.h ../include/Renderer.h ../include/Universe.h ../include/BodyManager.h ../include/VecMath.hpp
-	g++ -c ../src/main.cpp
+Universe.o: $(SRCDIR)Universe.cpp $(IDIR)Universe.hpp $(IDIR)Body.hpp $(IDIR)BodyManager.hpp $(IDIR)Physics.hpp $(IDIR)Renderer.hpp
+	g++ -c -I $(IDIR) $(SRCDIR)Universe.cpp
+
+main.o: $(SRCDIR)main.cpp $(IDIR)Universe.hpp
+	g++ -c -I $(IDIR) $(SRCDIR)main.cpp
 
 clean:
 	rm simulator Body.o main.o Physics.o Renderer.o Universe.o BodyManager.o VecMath.o

@@ -1,4 +1,4 @@
-#include "../include/Body.h"
+#include "Body.hpp"
 
 Body::Body(sf::Vector2f p, sf::Vector2f v, sf::Vector2f a, float m, int r, sf::Color c) {
     pos = p;

@@ -1,9 +1,9 @@
-#ifndef BODYMANAGER_H
-#define BODYMANAGER_H
+#ifndef BODYMANAGER_HPP
+#define BODYMANAGER_HPP
 
-#include "../include/BodyManager.h"
-#include "../include/Body.h"
 #include <vector>
+
+#include "Body.hpp"
 
 class BodyManager {
     private:

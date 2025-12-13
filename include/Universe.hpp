@@ -1,11 +1,12 @@
 #ifndef UNIVERSE_H
 #define UNIVERSE_H
 
-#include "../include/Body.h"
-#include "../include/Physics.h"
-#include "../include/Renderer.h"
-#include "../include/BodyManager.h"
 #include <vector>
+
+#include "Body.hpp"
+#include "BodyManager.hpp"
+#include "Physics.hpp"
+#include "Renderer.hpp"
 
 
 class Universe {

@@ -1,4 +1,4 @@
-#include "../include/Renderer.h"
+#include "Renderer.hpp"
 
 Renderer::Renderer() {
     // Font and text

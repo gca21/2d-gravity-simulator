@@ -1,9 +1,10 @@
-#ifndef PHYSICS_H
-#define PHYSICS_H
+#ifndef PHYSICS_HPP
+#define PHYSICS_HPP
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include "Body.h"
+
+#include "Body.hpp"
 #include "VecMath.hpp"
 
 class Physics {
