@@ -18,7 +18,7 @@ VecMath.o: $(SRCDIR)VecMath.cpp $(IDIR)VecMath.hpp
 Body.o: $(SRCDIR)Body.cpp $(IDIR)Body.hpp
 	g++ -c -I $(IDIR) $(SRCDIR)Body.cpp
 
-BodyManager.o: $(SRCDIR)BodyManager.cpp $(IDIR)BodyManager.hpp $(IDIR)Body.hpp
+BodyManager.o: $(SRCDIR)BodyManager.cpp $(IDIR)BodyManager.hpp $(IDIR)Body.hpp $(IDIR)VecMath.hpp
 	g++ -c -I $(IDIR) $(SRCDIR)BodyManager.cpp
 
 Physics.o: $(SRCDIR)Physics.cpp $(IDIR)Physics.hpp $(IDIR)Body.hpp $(IDIR)VecMath.hpp

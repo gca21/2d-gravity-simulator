@@ -8,3 +8,8 @@ sf::Vector2f VecMath::calculateUnitVector(const sf::Vector2f& vec1, const sf::Ve
     }
     return difference / distance;
 }
+
+float VecMath::calculateDistance(const sf::Vector2f& pos1, const sf::Vector2f& pos2) {
+    sf::Vector2f difference =  pos1 - pos2;
+    return difference.length();
+}

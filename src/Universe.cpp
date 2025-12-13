@@ -12,8 +12,11 @@ void Universe::processEvents() {
         if (event->is<sf::Event::Closed>()) {
             window.close();
         }
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+        else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
             leftMouseClickThisFrame = true;
+        }
+        else if (event->is<sf::Event::MouseMoved>()) {
+            bodyManager.updatePreviewVel(previewBody, sf::Vector2f(sf::Mouse::getPosition(window)));
         }
 
         if (leftMouseClickThisFrame && !leftMouseClickLastFrame) {
