@@ -13,7 +13,7 @@
 class Renderer {
     private:
         const int N_VEL_PREVIEW_POINTS = 10;
-        const int TRAJECTORY_POINT_RADIUS = 10;
+        const int TRAJECTORY_POINT_RADIUS = 1;
         sf::Font robotoFont;
         bool fontAvailable = true;
         std::optional<sf::Text> fpsText;
