@@ -1,6 +1,10 @@
 #include "Body.hpp"
 
+int Body::nextId = 1; // First id value
+
 Body::Body(sf::Vector2f p, sf::Vector2f v, sf::Vector2f a, float m, int r, sf::Color c) {
+    id = nextId;
+    nextId += 1;
     pos = p;
     vel = v;
     acc = a;

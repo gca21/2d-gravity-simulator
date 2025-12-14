@@ -5,7 +5,9 @@
 #include <deque>
 
 class Body {
+    static int nextId;
     private:
+        int id;
         const float MIN_TRAJECTORY_DISTANCE = 10;
         sf::Vector2f pos;
         sf::Vector2f vel;
@@ -14,6 +16,8 @@ class Body {
         int radius;
         sf::Color color;
         std::deque<sf::Vector2f> trajectory;
+
+        int getNextID();
     
     public:
         static const int MAX_TRAJECTORY_SIZE = 50;
