@@ -5,6 +5,7 @@
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 **Description**
+
 Interactive simulator of 2D bodies with gravitational forces written in **C++** using **SFML**. The user can create bodies dynamically adjusting their mass, size, color and initial velocity, and visualize their trajectories in real time.
 
 ## Features
