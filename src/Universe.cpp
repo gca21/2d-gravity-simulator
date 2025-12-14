@@ -11,6 +11,7 @@ void Universe::processEvents() {
     bool mouseMoved = false;
     bool mouseScrolled = false;
     float mouseWheelDelta;
+    bool cKeyPressed = false;
     while (const std::optional event = window.pollEvent()) {
         if (event->is<sf::Event::Closed>()) {
             window.close();
@@ -27,6 +28,11 @@ void Universe::processEvents() {
             mouseScrolled = true;
             mouseWheelDelta = e->delta;
         }
+        else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+            if (keyPressed->code == sf::Keyboard::Key::C) {
+                cKeyPressed = true;
+            }
+        }
     }
 
     if (leftMouseClickThisFrame && !leftMouseClickLastFrame) {
@@ -40,6 +46,9 @@ void Universe::processEvents() {
     }
     if (mouseScrolled) {
         bodyManager.updatePreviewSize(previewBody, mouseWheelDelta);
+    }
+    if (cKeyPressed) {
+        bodyManager.updatePreviewColor(previewBody);
     }
 }
 

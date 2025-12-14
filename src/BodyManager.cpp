@@ -17,7 +17,7 @@ void BodyManager::addBody(std::vector<Body>& bodies, std::optional<Body>& previe
             vector0, 
             DEFAULT_BODY_MASS, 
             DEFAULT_BODY_RADIUS, 
-            sf::Color(255, 255, 255)
+            colors.at(0)
         );
     }
 }
@@ -48,5 +48,23 @@ void BodyManager::updatePreviewSize(std::optional<Body>& previewBody, float mous
     }
     else {
         previewBody->setMass(currentMass/3);
+    }
+}
+
+void BodyManager::updatePreviewColor(std::optional<Body>& previewBody) {
+    if (!previewBody) {
+        return;
+    }
+    // Find the current color and change it to the next one
+    for (size_t i = 0; i < colors.size(); i++) {
+        if (colors.at(i) != previewBody->getColor()) {
+            continue;
+        }
+        if (i == colors.size()-1) {
+            previewBody->setColor(colors.at(0));
+            return;
+        }
+        previewBody->setColor(colors.at(i+1));
+        return;
     }
 }
