@@ -43,12 +43,7 @@ void BodyManager::updatePreviewSize(std::optional<Body>& previewBody, float mous
     }
     // Update mass and radius
     previewBody->setRadius(previewBody->getRadius() + mouseWheelDelta*DEFAULT_BODY_RADIUS);
-    if (mouseWheelDelta == 1) {
-        previewBody->setMass(currentMass*3);
-    }
-    else {
-        previewBody->setMass(currentMass/3);
-    }
+    previewBody->setMass(previewBody->getRadius()*previewBody->getRadius()*1000);
 }
 
 void BodyManager::updatePreviewColor(std::optional<Body>& previewBody) {
