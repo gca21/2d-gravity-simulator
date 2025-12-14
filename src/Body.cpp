@@ -36,6 +36,10 @@ void Body::accelerate(sf::Vector2f acceleration) {
     acc += acceleration;
 }
 
+int Body::getId() const {
+    return id;
+}
+
 sf::Vector2f Body::getPos() const {
     return pos;
 }

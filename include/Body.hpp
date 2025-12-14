@@ -29,6 +29,7 @@ class Body {
         void update(float deltaTime);
         void accelerate(sf::Vector2f acceleration);
 
+        int getId() const;
         sf::Vector2f getPos() const;
         sf::Vector2f getVel() const;
         sf::Vector2f getAcc() const;
