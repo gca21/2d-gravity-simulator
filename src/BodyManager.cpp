@@ -15,7 +15,7 @@ void BodyManager::addBody(std::vector<Body>& bodies, std::optional<Body>& previe
             mousePos,
             vector0,
             vector0, 
-            DEFAULT_BODY_MASS, 
+            DEFAULT_BODY_RADIUS*DEFAULT_BODY_RADIUS*MASS_GROWTH_FACTOR, 
             DEFAULT_BODY_RADIUS, 
             colors.at(0)
         );
@@ -43,7 +43,7 @@ void BodyManager::updatePreviewSize(std::optional<Body>& previewBody, float mous
     }
     // Update mass and radius
     previewBody->setRadius(previewBody->getRadius() + mouseWheelDelta*DEFAULT_BODY_RADIUS);
-    previewBody->setMass(previewBody->getRadius()*previewBody->getRadius()*1000);
+    previewBody->setMass(previewBody->getRadius()*previewBody->getRadius()*MASS_GROWTH_FACTOR);
 }
 
 void BodyManager::updatePreviewColor(std::optional<Body>& previewBody) {

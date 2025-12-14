@@ -10,7 +10,7 @@
 class BodyManager {
     private:
         const int DEFAULT_BODY_RADIUS = 5;
-        const int DEFAULT_BODY_MASS = 1500;
+        const int MASS_GROWTH_FACTOR = 1000;
         std::array <sf::Color, 7> colors{
             sf::Color::White, 
             sf::Color::Red,
