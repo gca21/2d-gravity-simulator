@@ -10,6 +10,8 @@
 #include "Body.hpp"
 #include "VecMath.hpp"
 
+class Universe;
+
 class Renderer {
     private:
         const int N_VEL_PREVIEW_POINTS = 10;
@@ -24,14 +26,9 @@ class Renderer {
         void drawTrajectory(sf::RenderWindow& window, const Body& body);
         void drawBody(sf::RenderWindow& window, const Body& body);
         void drawPreviewVel(sf::RenderWindow& window, const Body& body);
-        void drawBodies(sf::RenderWindow& window, const std::vector<Body>& bodies);
+        void drawBodies(Universe& universe);
         void drawFps(sf::RenderWindow& window, const float& deltaTime);
-        void render(
-            sf::RenderWindow& window, 
-            const std::vector<Body>& bodies, 
-            const float& deltaTime,
-            const std::optional<Body>& previewBody
-        );
+        void render(Universe& universe, const float& deltaTime, const std::optional<Body>& previewBody);
 };
 
 

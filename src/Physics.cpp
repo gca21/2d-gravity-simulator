@@ -1,4 +1,5 @@
 #include "Physics.hpp"
+#include "Universe.hpp"
 
 Physics::Physics(float gravitationalConstant) {
     G = gravitationalConstant;
@@ -12,37 +13,33 @@ float Physics::calculateGravityForce(Body& body1, Body& body2) const {
     return (G*body1.getMass()*body2.getMass()) / sqrDistance;
 }
 
-void Physics::simulateGravity(std::vector<Body>& bodies) const {
-    for (unsigned int i = 0; i < bodies.size(); i++) {
-        Body& body1 = bodies[i];
-        for (unsigned int j = 0; j < bodies.size(); j++) {
-            if (i == j) {
-                continue;
-            }
-            Body& body2 = bodies[j];
-            float force = calculateGravityForce(body1, body2);
-            sf::Vector2f forceVec = VecMath::calculateUnitVector(body1.getPos(), body2.getPos()) * force;
-            body2.accelerate(forceVec / body2.getMass());
+void Physics::simulateGravity(Universe& universe) const {
+    universe.forEachBodyPairMutable([this](Body& body1, Body& body2) {
+        if (body1.getId() == body2.getId()) {
+            return;
         }
-    }
+        float force = calculateGravityForce(body1, body2);
+        sf::Vector2f forceVec = VecMath::calculateUnitVector(body1.getPos(), body2.getPos()) * force;
+        body2.accelerate(forceVec / body2.getMass());
+    });
 }
 
-void Physics::resetAcc(std::vector<Body>& bodies) const {
-    for (Body& body : bodies) {
+void Physics::resetAcc(Universe& universe) const {
+    universe.forEachBodyMutable([](Body& body) {
         body.setAcc({0, 0});
-    }
+    });
 }
 
-void Physics::updateVel(std::vector<Body>& bodies, float deltaTime) const {
-    for (Body& body : bodies) {
+void Physics::updateVel(Universe& universe, float deltaTime) const {
+    universe.forEachBodyMutable([deltaTime](Body& body) {
         body.update(deltaTime);
-    }
+    });
 }
 
-void Physics::simulation(std::vector<Body>& bodies, float deltaTime) const {
-    resetAcc(bodies);
-    simulateGravity(bodies);
-    updateVel(bodies, deltaTime);
+void Physics::simulation(Universe& universe, float deltaTime) const {
+    resetAcc(universe);
+    simulateGravity(universe);
+    updateVel(universe, deltaTime);
 }
 
 void Physics::setG(float g) {

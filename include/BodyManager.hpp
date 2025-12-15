@@ -7,8 +7,11 @@
 #include "Body.hpp"
 #include "VecMath.hpp"
 
+class Universe;
+
 class BodyManager {
     private:
+        std::optional<Body> previewBody; // New body created by user
         const int DEFAULT_BODY_RADIUS = 5;
         const int MASS_GROWTH_FACTOR = 1000;
         std::array <sf::Color, 7> colors{
@@ -23,11 +26,12 @@ class BodyManager {
 
     public:
         BodyManager();
-        void addBody(std::vector<Body>& bodies, std::optional<Body>& previewBody, sf::Vector2f mousePos);
-        void updatePreviewVel(std::optional<Body>& previewBody, sf::Vector2f mousePos);
-        void updatePreviewSize(std::optional<Body>& previewBody, float mouseWheelDelta);
-        void updatePreviewColor(std::optional<Body>& previewBody);
+        void addBody(Universe& universe, sf::Vector2f mousePos);
+        void updatePreviewVel(sf::Vector2f mousePos);
+        void updatePreviewSize(float mouseWheelDelta);
+        void updatePreviewColor();
 
+        std::optional<Body> getPreviewBody() const;
 };
 
 

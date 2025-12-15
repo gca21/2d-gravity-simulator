@@ -7,6 +7,8 @@
 #include "Body.hpp"
 #include "VecMath.hpp"
 
+class Universe;
+
 class Physics {
     private:
         float G;
@@ -14,10 +16,10 @@ class Physics {
         Physics(float gravitationalConstant);
 
         float calculateGravityForce(Body& body1, Body& body2) const;
-        void simulateGravity(std::vector<Body>& bodies) const;
-        void resetAcc(std::vector<Body>& bodies) const;
-        void updateVel(std::vector<Body>& bodies, float deltaTime) const;
-        void simulation(std::vector<Body>& bodies, float deltaTime) const;
+        void simulateGravity(Universe& universe) const;
+        void resetAcc(Universe& universe) const;
+        void updateVel(Universe& universe, float deltaTime) const;
+        void simulation(Universe& universe, float deltaTime) const;
 
         void setG(float g);
         float getG() const;

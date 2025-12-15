@@ -1,4 +1,5 @@
 #include "Renderer.hpp"
+#include "Universe.hpp"
 
 Renderer::Renderer() {
     // Font and text
@@ -48,10 +49,10 @@ void Renderer::drawPreviewVel(sf::RenderWindow& window, const Body& body) {
 
 }
 
-void Renderer::drawBodies(sf::RenderWindow& window, const std::vector<Body>& bodies) {
-    for (const Body& body : bodies) {
+void Renderer::drawBodies(Universe& universe) {
+    universe.forEachBody([this, &window=universe.getWindow()](const Body& body) {
         drawBody(window, body);
-    }
+    });
 }
 
 void Renderer::drawFps(sf::RenderWindow& window, const float& deltaTime) {
@@ -69,15 +70,11 @@ void Renderer::drawFps(sf::RenderWindow& window, const float& deltaTime) {
     window.draw(*fpsText);
 }
 
-void Renderer::render(
-    sf::RenderWindow& window, 
-    const std::vector<Body>& bodies, 
-    const float& deltaTime,
-    const std::optional<Body>& previewBody)
-    {
+void Renderer::render(Universe& universe, const float& deltaTime, const std::optional<Body>& previewBody) {
+    sf::RenderWindow& window = universe.getWindow();
     window.clear();
     drawFps(window, deltaTime);
-    drawBodies(window, bodies);
+    drawBodies(universe);
     if (previewBody) {
         drawBody(window, *previewBody);
         drawPreviewVel(window, *previewBody);

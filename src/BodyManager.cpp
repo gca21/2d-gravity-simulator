@@ -1,12 +1,13 @@
 #include "BodyManager.hpp"
+#include "Universe.hpp"
 
 BodyManager::BodyManager() {
 
 }
 
-void BodyManager::addBody(std::vector<Body>& bodies, std::optional<Body>& previewBody, sf::Vector2f mousePos) {
+void BodyManager::addBody(Universe& universe, sf::Vector2f mousePos) {
     if (previewBody) {
-        bodies.push_back(*previewBody);
+        universe.addBody(*previewBody);
         previewBody.reset();
     }
     else {
@@ -22,7 +23,7 @@ void BodyManager::addBody(std::vector<Body>& bodies, std::optional<Body>& previe
     }
 }
 
-void BodyManager::updatePreviewVel(std::optional<Body>& previewBody, sf::Vector2f mousePos) {
+void BodyManager::updatePreviewVel(sf::Vector2f mousePos) {
     if (!previewBody) {
         return;
     }
@@ -32,7 +33,7 @@ void BodyManager::updatePreviewVel(std::optional<Body>& previewBody, sf::Vector2
     previewBody->setVel(unitVector*distance);
 }
 
-void BodyManager::updatePreviewSize(std::optional<Body>& previewBody, float mouseWheelDelta) {
+void BodyManager::updatePreviewSize(float mouseWheelDelta) {
     if (!previewBody) {
         return;
     }
@@ -46,7 +47,7 @@ void BodyManager::updatePreviewSize(std::optional<Body>& previewBody, float mous
     previewBody->setMass(previewBody->getRadius()*previewBody->getRadius()*MASS_GROWTH_FACTOR);
 }
 
-void BodyManager::updatePreviewColor(std::optional<Body>& previewBody) {
+void BodyManager::updatePreviewColor() {
     if (!previewBody) {
         return;
     }
@@ -62,4 +63,8 @@ void BodyManager::updatePreviewColor(std::optional<Body>& previewBody) {
         previewBody->setColor(colors.at(i+1));
         return;
     }
+}
+
+std::optional<Body> BodyManager::getPreviewBody() const {
+    return previewBody;
 }

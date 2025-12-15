@@ -37,18 +37,18 @@ void Universe::processEvents() {
 
     if (leftMouseClickThisFrame && !leftMouseClickLastFrame) {
         sf::Vector2f mousePos(sf::Mouse::getPosition(window));
-        bodyManager.addBody(bodies, previewBody, mousePos);
+        bodyManager.addBody(*this, mousePos);
     }
     leftMouseClickLastFrame = leftMouseClickThisFrame;
 
     if (mouseMoved) {
-        bodyManager.updatePreviewVel(previewBody, sf::Vector2f(sf::Mouse::getPosition(window)));
+        bodyManager.updatePreviewVel(sf::Vector2f(sf::Mouse::getPosition(window)));
     }
     if (mouseScrolled) {
-        bodyManager.updatePreviewSize(previewBody, mouseWheelDelta);
+        bodyManager.updatePreviewSize(mouseWheelDelta);
     }
     if (cKeyPressed) {
-        bodyManager.updatePreviewColor(previewBody);
+        bodyManager.updatePreviewColor();
     }
 }
 
@@ -66,10 +66,42 @@ void Universe::run() {
         // Simulate at fixed timestep
         accumulator += deltaTime;
         while (accumulator >= SIMULATION_DELTA_TIME) {
-            physics.simulation(bodies, SIMULATION_DELTA_TIME);
+            physics.simulation(*this, SIMULATION_DELTA_TIME);
             accumulator -= SIMULATION_DELTA_TIME;
         }
         // Render
-        renderer.render(window, bodies, deltaTime, previewBody);
+        renderer.render(*this, deltaTime, bodyManager.getPreviewBody());
+    }
+}
+
+void Universe::addBody(Body body) {
+    bodies.insert({body.getId(), body});
+}
+
+Body Universe::getBody(int id) const {
+    return bodies.at(id);
+}
+
+sf::RenderWindow& Universe::getWindow() {
+    return window;
+}
+
+void Universe::forEachBody(std::function<void(const Body&)> func) const {
+    for (const auto& [id, body] : bodies) {
+        func(body);
+    }
+}
+
+void Universe::forEachBodyMutable(std::function<void(Body&)> func) {
+    for (auto& [id, body] : bodies) {
+        func(body);
+    }
+}
+
+void Universe::forEachBodyPairMutable(std::function<void(Body&, Body&)> func) {
+    for (auto& [id1, body1] : bodies) {
+        for (auto& [id2, body2] : bodies) {
+            func(body1, body2);
+        }
     }
 }
