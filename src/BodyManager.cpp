@@ -1,13 +1,12 @@
 #include "BodyManager.hpp"
-#include "Universe.hpp"
 
 BodyManager::BodyManager() {
 
 }
 
-void BodyManager::addBody(Universe& universe, sf::Vector2f mousePos) {
+void BodyManager::addPreviewBody(sf::Vector2f mousePos) {
     if (previewBody) {
-        universe.addBody(*previewBody);
+        bodies.insert({previewBody->getId(), *previewBody});
         previewBody.reset();
     }
     else {
@@ -67,4 +66,32 @@ void BodyManager::updatePreviewColor() {
 
 std::optional<Body> BodyManager::getPreviewBody() const {
     return previewBody;
+}
+
+void BodyManager::addBody(Body body) {
+    bodies.insert({body.getId(), body});
+}
+
+Body BodyManager::getBody(int id) const {
+    return bodies.at(id);
+}
+
+void BodyManager::forEachBody(std::function<void(const Body&)> func) const {
+    for (const auto& [id, body] : bodies) {
+        func(body);
+    }
+}
+
+void BodyManager::forEachBodyMutable(std::function<void(Body&)> func) {
+    for (auto& [id, body] : bodies) {
+        func(body);
+    }
+}
+
+void BodyManager::forEachBodyPairMutable(std::function<void(Body&, Body&)> func) {
+    for (auto& [id1, body1] : bodies) {
+        for (auto& [id2, body2] : bodies) {
+            func(body1, body2);
+        }
+    }
 }

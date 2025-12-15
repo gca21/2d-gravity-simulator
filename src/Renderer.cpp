@@ -1,7 +1,9 @@
 #include "Renderer.hpp"
-#include "Universe.hpp"
 
 Renderer::Renderer() {
+    // Window
+    window = sf::RenderWindow(sf::VideoMode({1200, 900}), "2D Gravity simulator");
+    window.setFramerateLimit(60);
     // Font and text
     if (robotoFont.openFromFile("../assets/Roboto-Regular.ttf")) {
         fontAvailable = true;
@@ -14,7 +16,7 @@ Renderer::Renderer() {
 
 }
 
-void Renderer::drawTrajectory(sf::RenderWindow& window, const Body& body) {
+void Renderer::drawTrajectory(const Body& body) {
     for (const sf::Vector2f& oldPos : body.getTrajectory()) {
         sf::CircleShape circle;
         circle.setRadius(TRAJECTORY_POINT_RADIUS);
@@ -24,8 +26,8 @@ void Renderer::drawTrajectory(sf::RenderWindow& window, const Body& body) {
     }
 }
 
-void Renderer::drawBody(sf::RenderWindow& window, const Body& body) {
-    drawTrajectory(window, body);
+void Renderer::drawBody(const Body& body) {
+    drawTrajectory(body);
     // Draw circle
     sf::CircleShape circle;
     circle.setRadius(body.getRadius());
@@ -34,7 +36,7 @@ void Renderer::drawBody(sf::RenderWindow& window, const Body& body) {
     window.draw(circle);
 }
 
-void Renderer::drawPreviewVel(sf::RenderWindow& window, const Body& body) {
+void Renderer::drawPreviewVel(const Body& body) {
     sf::Vector2f lastPointPos = body.getPos() + body.getVel();
     sf::Vector2f step = VecMath::calculateStep(lastPointPos, body.getPos(), N_VEL_PREVIEW_POINTS);
     // Draw preview
@@ -49,13 +51,13 @@ void Renderer::drawPreviewVel(sf::RenderWindow& window, const Body& body) {
 
 }
 
-void Renderer::drawBodies(Universe& universe) {
-    universe.forEachBody([this, &window=universe.getWindow()](const Body& body) {
-        drawBody(window, body);
+void Renderer::drawBodies(BodyManager& bodyManager) {
+    bodyManager.forEachBody([this](const Body& body) {
+        drawBody(body);
     });
 }
 
-void Renderer::drawFps(sf::RenderWindow& window, const float& deltaTime) {
+void Renderer::drawFps(const float& deltaTime) {
     if (!fontAvailable || !fpsText.has_value()) {
         return;
     }
@@ -70,15 +72,29 @@ void Renderer::drawFps(sf::RenderWindow& window, const float& deltaTime) {
     window.draw(*fpsText);
 }
 
-void Renderer::render(Universe& universe, const float& deltaTime, const std::optional<Body>& previewBody) {
-    sf::RenderWindow& window = universe.getWindow();
+void Renderer::render(BodyManager& bodyManager, const float& deltaTime, const std::optional<Body>& previewBody) {
     window.clear();
-    drawFps(window, deltaTime);
-    drawBodies(universe);
+    drawFps(deltaTime);
+    drawBodies(bodyManager);
     if (previewBody) {
-        drawBody(window, *previewBody);
-        drawPreviewVel(window, *previewBody);
+        drawBody(*previewBody);
+        drawPreviewVel(*previewBody);
     }
     window.display();
 }
 
+std::optional<sf::Event> Renderer::pollEvent() {
+    return window.pollEvent();
+}
+
+void Renderer::closeWindow() {
+    window.close();
+}
+
+bool Renderer::isWindowOpen() {
+    return window.isOpen();
+}
+
+sf::Vector2i Renderer::getMousePos() {
+    return sf::Mouse::getPosition(window);
+}

@@ -1,5 +1,4 @@
 #include "Physics.hpp"
-#include "Universe.hpp"
 
 Physics::Physics(float gravitationalConstant) {
     G = gravitationalConstant;
@@ -13,8 +12,8 @@ float Physics::calculateGravityForce(Body& body1, Body& body2) const {
     return (G*body1.getMass()*body2.getMass()) / sqrDistance;
 }
 
-void Physics::simulateGravity(Universe& universe) const {
-    universe.forEachBodyPairMutable([this](Body& body1, Body& body2) {
+void Physics::simulateGravity(BodyManager& bodyManager) const {
+    bodyManager.forEachBodyPairMutable([this](Body& body1, Body& body2) {
         if (body1.getId() == body2.getId()) {
             return;
         }
@@ -24,22 +23,22 @@ void Physics::simulateGravity(Universe& universe) const {
     });
 }
 
-void Physics::resetAcc(Universe& universe) const {
-    universe.forEachBodyMutable([](Body& body) {
+void Physics::resetAcc(BodyManager& bodyManager) const {
+    bodyManager.forEachBodyMutable([](Body& body) {
         body.setAcc({0, 0});
     });
 }
 
-void Physics::updateVel(Universe& universe, float deltaTime) const {
-    universe.forEachBodyMutable([deltaTime](Body& body) {
+void Physics::updateVel(BodyManager& bodyManager, float deltaTime) const {
+    bodyManager.forEachBodyMutable([deltaTime](Body& body) {
         body.update(deltaTime);
     });
 }
 
-void Physics::simulation(Universe& universe, float deltaTime) const {
-    resetAcc(universe);
-    simulateGravity(universe);
-    updateVel(universe, deltaTime);
+void Physics::simulation(BodyManager& bodyManager, float deltaTime) const {
+    resetAcc(bodyManager);
+    simulateGravity(bodyManager);
+    updateVel(bodyManager, deltaTime);
 }
 
 void Physics::setG(float g) {
