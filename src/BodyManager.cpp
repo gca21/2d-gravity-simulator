@@ -75,23 +75,3 @@ void BodyManager::addBody(Body body) {
 Body BodyManager::getBody(int id) const {
     return bodies.at(id);
 }
-
-void BodyManager::forEachBody(std::function<void(const Body&)> func) const {
-    for (const auto& [id, body] : bodies) {
-        func(body);
-    }
-}
-
-void BodyManager::forEachBodyMutable(std::function<void(Body&)> func) {
-    for (auto& [id, body] : bodies) {
-        func(body);
-    }
-}
-
-void BodyManager::forEachBodyPairMutable(std::function<void(Body&, Body&)> func) {
-    for (auto& [id1, body1] : bodies) {
-        for (auto& [id2, body2] : bodies) {
-            func(body1, body2);
-        }
-    }
-}

@@ -3,7 +3,6 @@
 
 #include <unordered_map>
 #include <array>
-#include <functional>
 
 #include "Body.hpp"
 #include "VecMath.hpp"
@@ -26,18 +25,38 @@ class BodyManager {
 
     public:
         BodyManager();
+
         void addPreviewBody(sf::Vector2f mousePos);
         void updatePreviewVel(sf::Vector2f mousePos);
         void updatePreviewSize(float mouseWheelDelta);
         void updatePreviewColor();
         void addBody(Body body);
-        void forEachBody(std::function<void(const Body&)> func) const;
-        void forEachBodyMutable(std::function<void(Body&)> func);
-        void forEachBodyPairMutable(std::function<void(Body&, Body&)> func);
 
         std::optional<Body> getPreviewBody() const;
         Body getBody(int id) const;
-};
 
+        template <typename Func>
+        void forEachBody(Func func) const {
+            for (const auto& [id, body] : bodies) {
+                func(body);
+            }
+        }
+
+        template <typename Func>
+        void forEachBodyMutable(Func func) {
+            for (auto& [id, body] : bodies) {
+                func(body);
+            }
+        }
+
+        template <typename Func>
+        void forEachBodyPairMutable(Func func) {
+            for (auto& [id1, body1] : bodies) {
+                for (auto& [id2, body2] : bodies) {
+                    func(body1, body2);
+                }
+            }
+        }
+};
 
 #endif
