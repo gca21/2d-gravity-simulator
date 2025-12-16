@@ -1,7 +1,7 @@
 #ifndef BODYMANAGER_HPP
 #define BODYMANAGER_HPP
 
-#include <vector>
+#include <unordered_map>
 #include <array>
 
 #include "Body.hpp"
@@ -9,6 +9,8 @@
 
 class BodyManager {
     private:
+        std::unordered_map<int,Body> bodies;
+        std::optional<Body> previewBody; // New body created by user
         const int DEFAULT_BODY_RADIUS = 5;
         const int MASS_GROWTH_FACTOR = 1000;
         std::array <sf::Color, 7> colors{
@@ -23,12 +25,38 @@ class BodyManager {
 
     public:
         BodyManager();
-        void addBody(std::vector<Body>& bodies, std::optional<Body>& previewBody, sf::Vector2f mousePos);
-        void updatePreviewVel(std::optional<Body>& previewBody, sf::Vector2f mousePos);
-        void updatePreviewSize(std::optional<Body>& previewBody, float mouseWheelDelta);
-        void updatePreviewColor(std::optional<Body>& previewBody);
 
+        void addPreviewBody(sf::Vector2f mousePos);
+        void updatePreviewVel(sf::Vector2f mousePos);
+        void updatePreviewSize(float mouseWheelDelta);
+        void updatePreviewColor();
+        void addBody(Body body);
+
+        std::optional<Body> getPreviewBody() const;
+        Body getBody(int id) const;
+
+        template <typename Func>
+        void forEachBody(Func func) const {
+            for (const auto& [id, body] : bodies) {
+                func(body);
+            }
+        }
+
+        template <typename Func>
+        void forEachBodyMutable(Func func) {
+            for (auto& [id, body] : bodies) {
+                func(body);
+            }
+        }
+
+        template <typename Func>
+        void forEachBodyPairMutable(Func func) {
+            for (auto& [id1, body1] : bodies) {
+                for (auto& [id2, body2] : bodies) {
+                    func(body1, body2);
+                }
+            }
+        }
 };
-
 
 #endif

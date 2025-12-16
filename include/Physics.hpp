@@ -2,10 +2,10 @@
 #define PHYSICS_HPP
 
 #include <SFML/Graphics.hpp>
-#include <vector>
 
 #include "Body.hpp"
 #include "VecMath.hpp"
+#include "BodyManager.hpp"
 
 class Physics {
     private:
@@ -14,10 +14,10 @@ class Physics {
         Physics(float gravitationalConstant);
 
         float calculateGravityForce(Body& body1, Body& body2) const;
-        void simulateGravity(std::vector<Body>& bodies) const;
-        void resetAcc(std::vector<Body>& bodies) const;
-        void updateVel(std::vector<Body>& bodies, float deltaTime) const;
-        void simulation(std::vector<Body>& bodies, float deltaTime) const;
+        void simulateGravity(BodyManager& bodyManager) const;
+        void resetAcc(BodyManager& bodyManager) const;
+        void updateVel(BodyManager& bodyManager, float deltaTime) const;
+        void simulation(BodyManager& bodyManager, float deltaTime) const;
 
         void setG(float g);
         float getG() const;
