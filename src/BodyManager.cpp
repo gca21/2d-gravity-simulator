@@ -36,7 +36,6 @@ void BodyManager::updatePreviewSize(float mouseWheelDelta) {
     if (!previewBody) {
         return;
     }
-    float currentMass = previewBody->getMass();
     // Avoid 0 values
     if (previewBody->getRadius() == DEFAULT_BODY_RADIUS && mouseWheelDelta == -1) {
         return;
