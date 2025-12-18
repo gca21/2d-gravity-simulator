@@ -31,6 +31,7 @@ class BodyManager {
         void updatePreviewSize(float mouseWheelDelta);
         void updatePreviewColor();
         void addBody(Body body);
+        void deleteBody(int bodyId);
 
         std::optional<Body> getPreviewBody() const;
         Body getBody(int id) const;

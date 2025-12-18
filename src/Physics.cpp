@@ -46,15 +46,20 @@ bool Physics::isColliding(Body& body1, Body& body2) const {
 void Physics::collisions(BodyManager& bodyManager) const {
     // 1. Find and store collisions
     // 2. Merge bodies from collisions
-    
+
     // Store collisions by bodies id
     std::vector<std::pair<int, int>> collisions;
-    bodyManager.forEachBodyPairMutable([this, &collisions](Body& body1, Body& body2) {
+    bodyManager.forEachBodyPairMutable([this, &collisions, &bodyManager](Body& body1, Body& body2) {
         if (isColliding(body1, body2)) {
             std::pair<int, int> collision = std::make_pair(body1.getId(), body2.getId());
             collisions.push_back(collision);
         }
     });
+
+    for (auto collision : collisions) {
+        bodyManager.deleteBody(collision.first);
+        bodyManager.deleteBody(collision.second);
+    }
 }
 
 void Physics::simulation(BodyManager& bodyManager, float deltaTime) const {

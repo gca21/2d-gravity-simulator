@@ -72,6 +72,10 @@ void BodyManager::addBody(Body body) {
     bodies.insert({body.getId(), body});
 }
 
+void BodyManager::deleteBody(int bodyId) {
+    bodies.erase(bodyId);
+}
+
 Body BodyManager::getBody(int id) const {
     return bodies.at(id);
 }
