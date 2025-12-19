@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 #include <array>
+#include <cmath>
 
 #include "Body.hpp"
 #include "VecMath.hpp"
@@ -12,7 +13,7 @@ class BodyManager {
         std::unordered_map<int,Body> bodies;
         std::optional<Body> previewBody; // New body created by user
         const int DEFAULT_BODY_RADIUS = 5;
-        const int MASS_GROWTH_FACTOR = 1000;
+        static const int MASS_GROWTH_FACTOR = 1000;
         std::array <sf::Color, 7> colors{
             sf::Color::White, 
             sf::Color::Red,
@@ -26,6 +27,9 @@ class BodyManager {
     public:
         BodyManager();
 
+        static float getMassFromRadius(float radius);
+        static float getRadiusFromMass(float mass);
+
         void addPreviewBody(sf::Vector2f mousePos);
         void updatePreviewVel(sf::Vector2f mousePos);
         void updatePreviewSize(float mouseWheelDelta);
@@ -33,8 +37,8 @@ class BodyManager {
         void addBody(Body body);
         void deleteBody(int bodyId);
 
-        std::optional<Body> getPreviewBody() const;
-        Body getBody(int id) const;
+        std::optional<Body>& getPreviewBody();
+        Body& getBody(int id);
 
         template <typename Func>
         void forEachBody(Func func) const {

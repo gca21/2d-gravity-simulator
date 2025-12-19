@@ -1,7 +1,16 @@
 #include "BodyManager.hpp"
 
+#include <iostream>
+
 BodyManager::BodyManager() {
 
+}
+
+float BodyManager::getMassFromRadius(float radius) {
+    return radius*radius*MASS_GROWTH_FACTOR;
+}
+float BodyManager::getRadiusFromMass(float mass) {
+    return std::sqrt(mass/MASS_GROWTH_FACTOR);
 }
 
 void BodyManager::addPreviewBody(sf::Vector2f mousePos) {
@@ -15,7 +24,7 @@ void BodyManager::addPreviewBody(sf::Vector2f mousePos) {
             mousePos,
             vector0,
             vector0, 
-            DEFAULT_BODY_RADIUS*DEFAULT_BODY_RADIUS*MASS_GROWTH_FACTOR, 
+            getMassFromRadius(DEFAULT_BODY_RADIUS), 
             DEFAULT_BODY_RADIUS, 
             colors.at(0)
         );
@@ -42,7 +51,7 @@ void BodyManager::updatePreviewSize(float mouseWheelDelta) {
     }
     // Update mass and radius
     previewBody->setRadius(previewBody->getRadius() + mouseWheelDelta*DEFAULT_BODY_RADIUS);
-    previewBody->setMass(previewBody->getRadius()*previewBody->getRadius()*MASS_GROWTH_FACTOR);
+    previewBody->setMass(getMassFromRadius(previewBody->getRadius()));
 }
 
 void BodyManager::updatePreviewColor() {
@@ -63,7 +72,7 @@ void BodyManager::updatePreviewColor() {
     }
 }
 
-std::optional<Body> BodyManager::getPreviewBody() const {
+std::optional<Body>& BodyManager::getPreviewBody() {
     return previewBody;
 }
 
@@ -75,6 +84,6 @@ void BodyManager::deleteBody(int bodyId) {
     bodies.erase(bodyId);
 }
 
-Body BodyManager::getBody(int id) const {
+Body& BodyManager::getBody(int id) {
     return bodies.at(id);
 }
