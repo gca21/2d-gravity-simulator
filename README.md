@@ -15,6 +15,7 @@ Interactive simulator of 2D bodies with gravitational forces written in **C++** 
 - Adjustment of mass and radius using the mouse wheel
 - Change of body color while creating it
 - Visualization of the trajectories
+- Sequential body merging by collision
 - Real-time FPS display
 
 ## Dependencies
@@ -32,8 +33,15 @@ cd build
 ```bash
 make
 ```
+
+## Controls
+- Left mouse click to start creating a body
+- Move the mouse to adjust initial velocity
+- Use the mouse wheel to adjust radius and mass
+- Press 'c' to change the color
+- Left mouse click again to confirm the creation
+
 ## Future improvements
 Potential enhancements for the simulator:
-- **Collision handling**: Implement physical interactions between bodies to prevent overlapping
 - **Simulation control**: Add features to pause, resume and run the simulation backwards
 - **UI enhancements**: Include sliders or panels for the creation and adjustment of bodies
