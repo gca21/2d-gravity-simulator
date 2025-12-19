@@ -2,7 +2,7 @@
 
 Renderer::Renderer() {
     // Window
-    window = sf::RenderWindow(sf::VideoMode({1200, 900}), "2D Gravity simulator");
+    window = sf::RenderWindow(sf::VideoMode({1280, 720}), "2D Gravity simulator");
     window.setFramerateLimit(60);
     // Font and text
     if (robotoFont.openFromFile("../assets/Roboto-Regular.ttf")) {

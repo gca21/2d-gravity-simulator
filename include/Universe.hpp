@@ -8,7 +8,7 @@
 
 class Universe {
     private:
-        float GRAVITATIONAL_CONSTANT = 0.1;
+        float GRAVITATIONAL_CONSTANT = 0.5;
         const unsigned int SIMULATIONS_PER_SECOND = 60;
         const float SIMULATION_DELTA_TIME = (float)1/SIMULATIONS_PER_SECOND;
         Physics physics = Physics(GRAVITATIONAL_CONSTANT);
