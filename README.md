@@ -8,6 +8,10 @@
 
 Interactive simulator of 2D bodies with gravitational forces written in **C++** using **SFML**. The user can create bodies dynamically adjusting their mass, size, color and initial velocity, and visualize their trajectories in real time.
 
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/5dae8167-53f5-4324-81dc-244dbd3c26d3" width="70%">
+</div>
+
 ## Features
 - 2D Gravity simulation with multiple bodies
 - Creation of bodies with left mouse click
