@@ -6,11 +6,21 @@
 
 **Description**
 
-Interactive simulator of 2D bodies with gravitational forces written in **C++** using **SFML**. The user can create bodies dynamically adjusting their mass, size, color and initial velocity, and visualize their trajectories in real time.
+Interactive n-body gravitational simulator written in C++ using SFML. Simulates Newtonian gravity between multiple bodies with real-time trajectory visualization. The user can create bodies dynamically, adjusting their mass, size, color and initial velocity.
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/5dae8167-53f5-4324-81dc-244dbd3c26d3" width="70%">
 </div>
+
+## Physics & Implementation
+
+- **Gravitational model**: Newton's law of universal gravitation (F = Gm₁m₂/r²) 
+  with a synthetic G constant for interactive-scale simulation
+- **Fixed timestep loop**: Physics updates run at a fixed rate decoupled from 
+  the render loop via a time accumulator, ensuring simulation determinism 
+  regardless of framerate
+- **Collision & merging**: Inelastic collision detection with linear momentum 
+  conservation (m₁v₁ + m₂v₂ = (m₁+m₂)v')
 
 ## Features
 - 2D Gravity simulation with multiple bodies
@@ -49,3 +59,4 @@ make
 Potential enhancements for the simulator:
 - **Simulation control**: Add features to pause, resume and run the simulation backwards
 - **UI enhancements**: Include sliders or panels for the creation and adjustment of bodies
+- **Numerical integration**: Migrate from Euler to RK4 to prevent orbits from slowly gaining or losing energy over long simulations
